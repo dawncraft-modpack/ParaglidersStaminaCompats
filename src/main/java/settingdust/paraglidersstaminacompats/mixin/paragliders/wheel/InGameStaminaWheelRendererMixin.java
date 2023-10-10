@@ -35,7 +35,7 @@ public abstract class InGameStaminaWheelRendererMixin extends StaminaWheelRender
             remap = false)
     public void paraglidersStaminaCompats$getDelta(
             PlayerMovement movement, CallbackInfo ci, @Local(name = "stamina") int stamina) {
-        if (prevStamina > stamina)
+        if (!movement.getState().isConsume() && prevStamina > stamina)
             paraglidersStaminaCompats$deltaStamina +=
                     (prevStamina - stamina) * paraglidersStaminaCompats$deltaRenderFactor;
     }
@@ -44,8 +44,8 @@ public abstract class InGameStaminaWheelRendererMixin extends StaminaWheelRender
     private int paraglidersStaminaCompats$applyFinalDelta(int stamina) {
         if (paraglidersStaminaCompats$deltaStamina > 0) {
             paraglidersStaminaCompats$deltaStamina--;
-            return stamina - paraglidersStaminaCompats$deltaStamina / paraglidersStaminaCompats$deltaRenderFactor;
-        } else return stamina;
+        }
+        return stamina;
     }
 
     @ModifyExpressionValue(

@@ -5,7 +5,6 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.entity.living.LivingEvent;
-import org.checkerframework.checker.units.qual.A;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -15,6 +14,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import settingdust.paraglidersstaminacompats.ParaglidersStaminaCompatsConfig;
 import settingdust.paraglidersstaminacompats.epicfight.PlayerPatchMovement;
 import tictim.paraglider.capabilities.Caps;
 import tictim.paraglider.capabilities.PlayerMovement;
@@ -32,6 +32,11 @@ public abstract class MixinPlayerPatch<T extends Player> extends LivingEntityPat
 
     @Shadow
     public abstract boolean isChargingSkill();
+
+    @Shadow
+    public abstract void resetSkillCharging();
+
+    @Shadow public abstract boolean hasStamina(float amount);
 
     @Unique
     private LazyOptional<PlayerMovement> paraglidersStaminaCompats$playerMovement;
@@ -119,11 +124,24 @@ public abstract class MixinPlayerPatch<T extends Player> extends LivingEntityPat
         return 0;
     }
 
+    @Unique
+    private double paraglidersStaminaCompats$queuedStamina = 0.0;
+
     @Inject(method = "tick", at = @At("HEAD"))
     private void paraglidersStaminaCompats$disableRegenInActionCharging(
             LivingEvent.LivingUpdateEvent event, CallbackInfo ci) {
-        if (state.inaction() || !state.canBasicAttack() || isChargingSkill()) {
+        if (state.inaction() || !state.canBasicAttack() || isChargingSkill())
             paraglidersStaminaCompats$getPlayerMovement().setRecoveryDelay(30);
+        if (isChargingSkill()) {
+            Double chargingConsumption = ParaglidersStaminaCompatsConfig.CHARGING_CONSUMPTION.get();
+            paraglidersStaminaCompats$queuedStamina += chargingConsumption;
+            if (paraglidersStaminaCompats$queuedStamina > 1) {
+                double floored = Math.floor(paraglidersStaminaCompats$queuedStamina);
+                if (hasStamina((float) floored)) {
+                    paraglidersStaminaCompats$queuedStamina -= floored;
+                    paraglidersStaminaCompats$getPlayerMovement().takeStamina((int) floored, false, false);
+                } else cancelAnyAction();
+            }
         }
     }
 }

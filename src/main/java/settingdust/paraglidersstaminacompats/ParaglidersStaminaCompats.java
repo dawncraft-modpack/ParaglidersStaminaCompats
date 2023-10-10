@@ -2,6 +2,8 @@ package settingdust.paraglidersstaminacompats;
 
 import net.minecraftforge.fml.common.Mod;
 
+import java.util.Objects;
+
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(ParaglidersStaminaCompats.MOD_ID)
 public class ParaglidersStaminaCompats {
@@ -10,7 +12,7 @@ public class ParaglidersStaminaCompats {
 //    // Directly reference a slf4j logger
 //    private static final Logger LOGGER = LogUtils.getLogger();
 //
-//    public ParaglidersStaminaCompats() {
+    public ParaglidersStaminaCompats() {
 //        // Register the setup method for modloading
 //        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
 //        // Register the enqueueIMC method for modloading
@@ -20,7 +22,8 @@ public class ParaglidersStaminaCompats {
 //
 //        // Register ourselves for server and other game events we are interested in
 //        MinecraftForge.EVENT_BUS.register(this);
-//    }
+        Objects.requireNonNull(ParaglidersStaminaCompatsConfig.CHARGING_CONSUMPTION);
+    }
 //
 //    private void setup(final FMLCommonSetupEvent event) {
 //        // Some preinit code

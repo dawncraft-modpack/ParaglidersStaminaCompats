@@ -1,4 +1,4 @@
-package settingdust.paraglidersstaminacompats.epicfight;
+package settingdust.paraglidersstaminacompats.epicfight.exhaustedanimation;
 
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;

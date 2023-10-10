@@ -1,4 +1,4 @@
-package settingdust.paraglidersstaminacompats.epicfight;
+package settingdust.paraglidersstaminacompats.epicfight.exhaustedanimation;
 
 import yesman.epicfight.api.animation.LivingMotion;
 

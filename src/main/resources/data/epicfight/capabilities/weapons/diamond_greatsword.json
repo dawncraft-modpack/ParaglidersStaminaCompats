@@ -1,0 +1,11 @@
+{
+  "attributes": {
+    "common": {
+      "armor_negation": 10.0,
+      "impact": 4.0,
+      "max_strikes": 4,
+      "stamina_cost": 20.0
+    }
+  },
+  "type": "greatsword"
+}

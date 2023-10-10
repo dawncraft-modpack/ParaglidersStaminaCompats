@@ -1,6 +1,8 @@
 package settingdust.paraglidersstaminacompats;
 
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 import java.util.Objects;
 
@@ -22,7 +24,8 @@ public class ParaglidersStaminaCompats {
 //
 //        // Register ourselves for server and other game events we are interested in
 //        MinecraftForge.EVENT_BUS.register(this);
-        Objects.requireNonNull(ParaglidersStaminaCompatsConfig.CHARGING_CONSUMPTION);
+        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        ParaglidersStaminaCompatsAttributes.ATTRIBUTES.register(modEventBus);
     }
 //
 //    private void setup(final FMLCommonSetupEvent event) {

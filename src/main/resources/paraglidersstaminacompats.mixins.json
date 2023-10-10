@@ -6,7 +6,8 @@
   "refmap": "paraglidersstaminacompats.refmap.json",
   "mixins": [
     "epicfight.exhaustedanimation.MixinPlayerPatch",
-    "epicfight.sync.MixinPlayerPatch",
+    "epicfight.morestamina.MixinBasicAttack",
+    "epicfight.syncparagliders.MixinPlayerPatch",
     "paragliders.MixinClientPlayerMovement"
   ],
   "client": [

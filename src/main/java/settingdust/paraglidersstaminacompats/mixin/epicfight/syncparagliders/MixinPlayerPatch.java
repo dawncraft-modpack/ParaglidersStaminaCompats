@@ -1,9 +1,11 @@
-package settingdust.paraglidersstaminacompats.mixin.epicfight.sync;
+package settingdust.paraglidersstaminacompats.mixin.epicfight.syncparagliders;
 
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.event.entity.living.LivingEvent;
+import org.checkerframework.checker.units.qual.A;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -24,6 +26,12 @@ import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 public abstract class MixinPlayerPatch<T extends Player> extends LivingEntityPatch<T> implements PlayerPatchMovement {
     @Shadow
     public abstract float getStamina();
+
+    @Shadow
+    protected int chargingAmount;
+
+    @Shadow
+    public abstract boolean isChargingSkill();
 
     @Unique
     private LazyOptional<PlayerMovement> paraglidersStaminaCompats$playerMovement;
@@ -70,7 +78,7 @@ public abstract class MixinPlayerPatch<T extends Player> extends LivingEntityPat
     private void paraglidersStaminaCompats$setStamina(float value, CallbackInfo ci) {
         PlayerMovement playerMovement = paraglidersStaminaCompats$getPlayerMovement();
         playerMovement.setStamina((int) value);
-        playerMovement.setRecoveryDelay(30);
+        if (playerMovement.getRecoveryDelay() <= 0) playerMovement.setRecoveryDelay(30);
         if (playerMovement instanceof ServerPlayerMovement serverPlayerMovement) {
             serverPlayerMovement.movementNeedsSync = true;
         }
@@ -109,5 +117,13 @@ public abstract class MixinPlayerPatch<T extends Player> extends LivingEntityPat
                                     "Lyesman/epicfight/world/capabilities/entitypatch/player/PlayerPatch;getMaxStamina()F"))
     private float paraglidersStaminaCompats$makeMaxStaminaZero(PlayerPatch<T> instance) {
         return 0;
+    }
+
+    @Inject(method = "tick", at = @At("HEAD"))
+    private void paraglidersStaminaCompats$disableRegenInActionCharging(
+            LivingEvent.LivingUpdateEvent event, CallbackInfo ci) {
+        if (state.inaction() || !state.canBasicAttack() || isChargingSkill()) {
+            paraglidersStaminaCompats$getPlayerMovement().setRecoveryDelay(30);
+        }
     }
 }

@@ -1,4 +1,4 @@
-package settingdust.paraglidersstaminacompats.mixin.epicfight;
+package settingdust.paraglidersstaminacompats.mixin.epicfight.sync;
 
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -13,6 +13,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import settingdust.paraglidersstaminacompats.epicfight.PlayerPatchMovement;
 import tictim.paraglider.capabilities.Caps;
 import tictim.paraglider.capabilities.PlayerMovement;
 import tictim.paraglider.capabilities.ServerPlayerMovement;
@@ -20,7 +21,7 @@ import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 
 @Mixin(value = PlayerPatch.class, remap = false)
-public abstract class MixinPlayerPatch<T extends Player> extends LivingEntityPatch<T> {
+public abstract class MixinPlayerPatch<T extends Player> extends LivingEntityPatch<T> implements PlayerPatchMovement {
     @Shadow
     public abstract float getStamina();
 
@@ -45,7 +46,8 @@ public abstract class MixinPlayerPatch<T extends Player> extends LivingEntityPat
 
     @Unique
     @NotNull
-    private PlayerMovement paraglidersStaminaCompats$getPlayerMovement() {
+    @Override
+    public PlayerMovement paraglidersStaminaCompats$getPlayerMovement() {
         return paraglidersStaminaCompats$playerMovement.orElseThrow(
                 () -> new IllegalStateException("PlayerMovement not initialized for " + original.getName()));
     }

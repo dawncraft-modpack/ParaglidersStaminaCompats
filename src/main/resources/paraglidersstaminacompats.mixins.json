@@ -5,10 +5,12 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "paraglidersstaminacompats.refmap.json",
   "mixins": [
-    "epicfight.MixinPlayerPatch",
+    "epicfight.exhaustedanimation.MixinPlayerPatch",
+    "epicfight.sync.MixinPlayerPatch",
     "paragliders.MixinClientPlayerMovement"
   ],
   "client": [
+    "epicfight.exhaustedanimation.MixinClientAnimator"
   ],
   "injectors": {
     "defaultRequire": 1

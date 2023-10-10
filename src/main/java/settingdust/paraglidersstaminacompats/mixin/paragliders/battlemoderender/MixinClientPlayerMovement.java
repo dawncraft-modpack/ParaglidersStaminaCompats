@@ -1,4 +1,4 @@
-package settingdust.paraglidersstaminacompats.mixin.paragliders;
+package settingdust.paraglidersstaminacompats.mixin.paragliders.battlemoderender;
 
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.util.LazyOptional;
@@ -26,7 +26,7 @@ public abstract class MixinClientPlayerMovement extends RemotePlayerMovement {
     }
 
     @Inject(method = "<init>", at = @At("RETURN"))
-    private void initPlayerPatch(Player player, CallbackInfo ci) {
+    private void paraglidersStaminaCompats$initPlayerPatch(Player player, CallbackInfo ci) {
         paraglidersStaminaCompats$playerPatch = LazyOptional.of(() -> EpicFightCapabilities.getEntityPatch(player, LocalPlayerPatch.class));
     }
 

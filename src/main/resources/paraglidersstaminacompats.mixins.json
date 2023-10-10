@@ -8,9 +8,11 @@
     "epicfight.exhaustedanimation.MixinPlayerPatch",
     "epicfight.morestamina.MixinBasicAttack",
     "epicfight.syncparagliders.MixinPlayerPatch",
-    "paragliders.MixinClientPlayerMovement"
+    "paragliders.battlemoderender.MixinClientPlayerMovement",
+    "paragliders.wheel.InGameStaminaWheelRendererMixin"
   ],
   "client": [
+    "epicfight.disablestaminabar.MixinBattleModeGui",
     "epicfight.exhaustedanimation.MixinClientAnimator"
   ],
   "injectors": {

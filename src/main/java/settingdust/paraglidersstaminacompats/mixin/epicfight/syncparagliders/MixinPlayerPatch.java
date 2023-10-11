@@ -22,21 +22,22 @@ import tictim.paraglider.capabilities.ServerPlayerMovement;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 
-@Mixin(value = PlayerPatch.class, remap = false)
+@Mixin(value = PlayerPatch.class)
 public abstract class MixinPlayerPatch<T extends Player> extends LivingEntityPatch<T> implements PlayerPatchMovement {
-    @Shadow
+    @Shadow(remap = false)
     public abstract float getStamina();
 
-    @Shadow
+    @Shadow(remap = false)
     protected int chargingAmount;
 
-    @Shadow
+    @Shadow(remap = false)
     public abstract boolean isChargingSkill();
 
-    @Shadow
+    @Shadow(remap = false)
     public abstract void resetSkillCharging();
 
-    @Shadow public abstract boolean hasStamina(float amount);
+    @Shadow(remap = false)
+    public abstract boolean hasStamina(float amount);
 
     @Unique
     private LazyOptional<PlayerMovement> paraglidersStaminaCompats$playerMovement;
@@ -51,7 +52,7 @@ public abstract class MixinPlayerPatch<T extends Player> extends LivingEntityPat
     private void paraglidersStaminaCompats$removeStaminaRegistering(
             SynchedEntityData instance, EntityDataAccessor<?> p_135373_, Object p_135374_) {}
 
-    @Inject(method = "onConstructed*", at = @At("RETURN"))
+    @Inject(method = "onConstructed*", at = @At("RETURN"), remap = false)
     private void paraglidersStaminaCompats$initPlayerMovement(T player, CallbackInfo ci) {
         paraglidersStaminaCompats$playerMovement = LazyOptional.of(
                 () -> player.getCapability(Caps.playerMovement).resolve().orElseThrow());
@@ -65,21 +66,21 @@ public abstract class MixinPlayerPatch<T extends Player> extends LivingEntityPat
                 () -> new IllegalStateException("PlayerMovement not initialized for " + original.getName()));
     }
 
-    @Inject(method = "getMaxStamina", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "getMaxStamina", at = @At("HEAD"), cancellable = true, remap = false)
     private void paraglidersStaminaCompats$getMaxStamina(CallbackInfoReturnable<Float> cir) {
         PlayerMovement playerMovement = paraglidersStaminaCompats$getPlayerMovement();
         cir.setReturnValue((float) playerMovement.getMaxStamina());
         cir.cancel();
     }
 
-    @Inject(method = "getStamina", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "getStamina", at = @At("HEAD"), cancellable = true, remap = false)
     private void paraglidersStaminaCompats$getStamina(CallbackInfoReturnable<Float> cir) {
         PlayerMovement playerMovement = paraglidersStaminaCompats$getPlayerMovement();
         cir.setReturnValue(playerMovement.isDepleted() ? 0 : (float) playerMovement.getStamina());
         cir.cancel();
     }
 
-    @Inject(method = "setStamina", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "setStamina", at = @At("HEAD"), cancellable = true, remap = false)
     private void paraglidersStaminaCompats$setStamina(float value, CallbackInfo ci) {
         PlayerMovement playerMovement = paraglidersStaminaCompats$getPlayerMovement();
         playerMovement.setStamina((int) value);
@@ -90,7 +91,7 @@ public abstract class MixinPlayerPatch<T extends Player> extends LivingEntityPat
         ci.cancel();
     }
 
-    @Inject(method = "hasStamina", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "hasStamina", at = @At("HEAD"), cancellable = true, remap = false)
     private void paraglidersStaminaCompats$hasStamina(float amount, CallbackInfoReturnable<Boolean> cir) {
         cir.setReturnValue(getStamina() >= amount);
         cir.cancel();
@@ -105,7 +106,7 @@ public abstract class MixinPlayerPatch<T extends Player> extends LivingEntityPat
                     @At(
                             value = "INVOKE",
                             target =
-                                    "Lyesman/epicfight/world/capabilities/entitypatch/player/PlayerPatch;getStamina()F"))
+                                    "Lyesman/epicfight/world/capabilities/entitypatch/player/PlayerPatch;getStamina()F"), remap = false)
     private float paraglidersStaminaCompats$makeStaminaZero(PlayerPatch<T> instance) {
         return 0;
     }
@@ -119,7 +120,7 @@ public abstract class MixinPlayerPatch<T extends Player> extends LivingEntityPat
                     @At(
                             value = "INVOKE",
                             target =
-                                    "Lyesman/epicfight/world/capabilities/entitypatch/player/PlayerPatch;getMaxStamina()F"))
+                                    "Lyesman/epicfight/world/capabilities/entitypatch/player/PlayerPatch;getMaxStamina()F"), remap = false)
     private float paraglidersStaminaCompats$makeMaxStaminaZero(PlayerPatch<T> instance) {
         return 0;
     }
@@ -127,7 +128,7 @@ public abstract class MixinPlayerPatch<T extends Player> extends LivingEntityPat
     @Unique
     private double paraglidersStaminaCompats$queuedStamina = 0.0;
 
-    @Inject(method = "tick", at = @At("HEAD"))
+    @Inject(method = "tick", at = @At("HEAD"), remap = false)
     private void paraglidersStaminaCompats$disableRegenInActionCharging(
             LivingEvent.LivingUpdateEvent event, CallbackInfo ci) {
         if (state.inaction() || !state.canBasicAttack() || isChargingSkill())

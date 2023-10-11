@@ -40,7 +40,7 @@ public final class ExhaustedAnimations {
         EXHAUSTED_WALK = new StaticAnimation(true, "biped/living/exhausted_walk", Armatures.BIPED);
         EXHAUSTED_IDLE_CROSSBOW = new StaticAnimation(true, "biped/living/exhausted_idle_crossbow", Armatures.BIPED);
         EXHAUSTED_WALK_CROSSBOW = new StaticAnimation(true, "biped/living/exhausted_walk_crossbow", Armatures.BIPED);
-        EXHAUSTED_IDLE_GREATSWORD = new StaticAnimation(true, "biped/living/exhausted_idle", Armatures.BIPED);
+        EXHAUSTED_IDLE_GREATSWORD = new StaticAnimation(true, "biped/living/exhausted_idle_greatsword", Armatures.BIPED);
         EXHAUSTED_WALK_GREATSWORD =
                 new StaticAnimation(true, "biped/living/exhausted_walk_greatsword", Armatures.BIPED);
         EXHAUSTED_IDLE_TACHI = new StaticAnimation(true, "biped/living/exhausted_idle_tachi", Armatures.BIPED);

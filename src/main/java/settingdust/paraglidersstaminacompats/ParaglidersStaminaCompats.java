@@ -1,8 +1,10 @@
 package settingdust.paraglidersstaminacompats;
 
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import settingdust.paraglidersstaminacompats.epicfight.morestamina.SkillListener;
 
 import java.util.Objects;
 
@@ -26,6 +28,10 @@ public class ParaglidersStaminaCompats {
 //        MinecraftForge.EVENT_BUS.register(this);
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         ParaglidersStaminaCompatsAttributes.ATTRIBUTES.register(modEventBus);
+
+        Objects.requireNonNull(ParaglidersStaminaCompatsConfig.CHARGING_CONSUMPTION);
+
+        MinecraftForge.EVENT_BUS.register(new SkillListener());
     }
 //
 //    private void setup(final FMLCommonSetupEvent event) {

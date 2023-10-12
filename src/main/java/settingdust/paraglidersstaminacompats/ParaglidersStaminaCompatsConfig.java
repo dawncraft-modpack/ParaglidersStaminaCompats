@@ -13,6 +13,8 @@ import java.util.Objects;
 public class ParaglidersStaminaCompatsConfig {
     public static final ForgeConfigSpec.DoubleValue CHARGING_CONSUMPTION;
 
+    public static final ForgeConfigSpec.DoubleValue AIMING_CONSUMPTION;
+
     public static final Map<WeaponCategory, ForgeConfigSpec.IntValue> WEAPON_CATEGORIES_COMMON_CONSUMPTION =
             Maps.newHashMap();
 
@@ -23,6 +25,9 @@ public class ParaglidersStaminaCompatsConfig {
         CHARGING_CONSUMPTION = serverConfig
                 .comment("How much is the charging consuming stamina every tick(20t = 1s)")
                 .defineInRange("charging", 1, 0.0, 100.0);
+        AIMING_CONSUMPTION = serverConfig
+                .comment("How much is the aiming consuming stamina every tick(20t = 1s)")
+                .defineInRange("aiming", 1, 0.0, 100.0);
         serverConfig.push("Weapon categories");
         serverConfig
                 .comment(

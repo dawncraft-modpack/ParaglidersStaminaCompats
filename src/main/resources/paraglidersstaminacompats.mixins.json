@@ -9,7 +9,8 @@
     "exhaustedanimation.MixinPlayerPatch",
     "morestamina.MixinBasicAttack",
     "morestamina.MixinItemCapabilityReloadListener",
-    "staminawheel.InGameStaminaWheelRendererMixin",
+    "morestamina.MixinPlayerPatch",
+    "staminawheel.MixinInGameStaminaWheelRenderer",
     "syncparagliders.epicfight.MixinEpicFightAttributes",
     "syncparagliders.epicfight.MixinPlayerPatch",
     "syncparagliders.paraglider.MixinPlayerMovement"

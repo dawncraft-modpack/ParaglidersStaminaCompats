@@ -179,7 +179,7 @@ dependencies {
         jarJar.ranged(it, "[0.2.0-rc.5,)")
     }
 
-    implementation fg.deobf('curse.maven:epicfight-405076:4785517')
+    implementation fg.deobf('curse.maven:epicfight-405076:4794936')
     implementation fg.deobf('curse.maven:paragliders-289240:4478246')
     implementation fg.deobf("curse.maven:weapons-of-miracles-epicfight-918614:4793927")
 }

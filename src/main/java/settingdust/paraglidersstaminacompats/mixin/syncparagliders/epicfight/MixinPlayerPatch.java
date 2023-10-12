@@ -1,11 +1,9 @@
 package settingdust.paraglidersstaminacompats.mixin.syncparagliders.epicfight;
 
-import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.event.entity.living.LivingEvent;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -13,7 +11,6 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import settingdust.paraglidersstaminacompats.ParaglidersStaminaCompatsConfig;
 import settingdust.paraglidersstaminacompats.epicfight.PlayerPatchMovement;
 import tictim.paraglider.capabilities.Caps;
 import tictim.paraglider.capabilities.PlayerMovement;
@@ -65,6 +62,14 @@ public abstract class MixinPlayerPatch<T extends Player> extends LivingEntityPat
     @ModifyConstant(method = "initAttributes", constant = @Constant(doubleValue = 1.0), remap = false)
     private double paraglidersStaminaCompats$removeDefaultStaminaRegen(double constant) {
         return 0.0;
+    }
+
+    /**
+     * For removing default stamina regen
+     */
+    @ModifyVariable(method = "serverTick", at = @At(value = "STORE"), name = "staminaRegen", remap = false)
+    private float paraglidersStaminaCompats$makeStaminaRegenNonZero(float value) {
+        return 1;
     }
 
     @Unique
@@ -134,26 +139,5 @@ public abstract class MixinPlayerPatch<T extends Player> extends LivingEntityPat
             remap = false)
     private float paraglidersStaminaCompats$makeMaxStaminaZero(PlayerPatch<T> instance) {
         return 0;
-    }
-
-    @Unique
-    private double paraglidersStaminaCompats$queuedStamina = 0.0;
-
-    @Inject(method = "tick", at = @At("HEAD"), remap = false)
-    private void paraglidersStaminaCompats$disableRegenInActionCharging(
-            LivingEvent.LivingUpdateEvent event, CallbackInfo ci) {
-        if (state.inaction() || !state.canBasicAttack() || isChargingSkill())
-            paraglidersStaminaCompats$getPlayerMovement().setRecoveryDelay(30);
-        if (isChargingSkill()) {
-            Double chargingConsumption = ParaglidersStaminaCompatsConfig.CHARGING_CONSUMPTION.get();
-            paraglidersStaminaCompats$queuedStamina += chargingConsumption;
-            if (paraglidersStaminaCompats$queuedStamina > 1) {
-                double floored = Math.floor(paraglidersStaminaCompats$queuedStamina);
-                if (hasStamina((float) floored)) {
-                    paraglidersStaminaCompats$queuedStamina -= floored;
-                    paraglidersStaminaCompats$getPlayerMovement().takeStamina((int) floored, false, false);
-                } else cancelAnyAction();
-            }
-        }
     }
 }

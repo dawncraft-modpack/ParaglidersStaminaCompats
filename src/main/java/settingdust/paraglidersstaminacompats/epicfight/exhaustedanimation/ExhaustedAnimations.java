@@ -3,6 +3,7 @@ package settingdust.paraglidersstaminacompats.epicfight.exhaustedanimation;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import settingdust.paraglidersstaminacompats.ParaglidersStaminaCompats;
+import yesman.epicfight.api.animation.types.MovementAnimation;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.api.forgeevent.AnimationRegistryEvent;
 import yesman.epicfight.gameasset.Armatures;
@@ -37,24 +38,24 @@ public final class ExhaustedAnimations {
 
     private static void build() {
         EXHAUSTED_IDLE = new StaticAnimation(true, "biped/living/exhausted_idle", Armatures.BIPED);
-        EXHAUSTED_WALK = new StaticAnimation(true, "biped/living/exhausted_walk", Armatures.BIPED);
+        EXHAUSTED_WALK = new MovementAnimation(true, "biped/living/exhausted_walk", Armatures.BIPED);
         EXHAUSTED_IDLE_CROSSBOW = new StaticAnimation(true, "biped/living/exhausted_idle_crossbow", Armatures.BIPED);
-        EXHAUSTED_WALK_CROSSBOW = new StaticAnimation(true, "biped/living/exhausted_walk_crossbow", Armatures.BIPED);
+        EXHAUSTED_WALK_CROSSBOW = new MovementAnimation(true, "biped/living/exhausted_walk_crossbow", Armatures.BIPED);
         EXHAUSTED_IDLE_GREATSWORD = new StaticAnimation(true, "biped/living/exhausted_idle_greatsword", Armatures.BIPED);
         EXHAUSTED_WALK_GREATSWORD =
-                new StaticAnimation(true, "biped/living/exhausted_walk_greatsword", Armatures.BIPED);
+                new MovementAnimation(true, "biped/living/exhausted_walk_greatsword", Armatures.BIPED);
         EXHAUSTED_IDLE_TACHI = new StaticAnimation(true, "biped/living/exhausted_idle_tachi", Armatures.BIPED);
-        EXHAUSTED_WALK_TACHI = new StaticAnimation(true, "biped/living/exhausted_walk_tachi", Armatures.BIPED);
+        EXHAUSTED_WALK_TACHI = new MovementAnimation(true, "biped/living/exhausted_walk_tachi", Armatures.BIPED);
         EXHAUSTED_IDLE_SPEAR = new StaticAnimation(true, "biped/living/exhausted_idle_spear", Armatures.BIPED);
-        EXHAUSTED_WALK_SPEAR = new StaticAnimation(true, "biped/living/exhausted_walk", Armatures.BIPED);
+        EXHAUSTED_WALK_SPEAR = new MovementAnimation(true, "biped/living/exhausted_walk", Armatures.BIPED);
         EXHAUSTED_IDLE_OCHS =
                 new StaticAnimation(true, "biped/living/exhausted_idle_ochs", Armatures.BIPED);
         EXHAUSTED_WALK_OCHS =
-                new StaticAnimation(true, "biped/living/exhausted_walk_ochs", Armatures.BIPED);
+                new MovementAnimation(true, "biped/living/exhausted_walk_ochs", Armatures.BIPED);
         EXHAUSTED_IDLE_SHEATH = new StaticAnimation(true, "biped/living/exhausted_idle_sheath", Armatures.BIPED);
-        EXHAUSTED_WALK_SHEATH = new StaticAnimation(true, "biped/living/exhausted_walk_sheath", Armatures.BIPED);
+        EXHAUSTED_WALK_SHEATH = new MovementAnimation(true, "biped/living/exhausted_walk_sheath", Armatures.BIPED);
         EXHAUSTED_IDLE_UNSHEATH = new StaticAnimation(true, "biped/living/exhausted_idle_unsheath", Armatures.BIPED);
-        EXHAUSTED_WALK_UNSHEATH = new StaticAnimation(true, "biped/living/exhausted_walk_unsheath", Armatures.BIPED);
-        EXHAUSTED_WALK_UCHIGATANA = new StaticAnimation(true, "biped/living/exhausted_walk_uchigatana", Armatures.BIPED);
+        EXHAUSTED_WALK_UNSHEATH = new MovementAnimation(true, "biped/living/exhausted_walk_unsheath", Armatures.BIPED);
+        EXHAUSTED_WALK_UCHIGATANA = new MovementAnimation(true, "biped/living/exhausted_walk_uchigatana", Armatures.BIPED);
     }
 }

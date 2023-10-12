@@ -20,7 +20,7 @@ public class MixinEpicFightAttributes {
                             value = "INVOKE",
                             target =
                                     "Lnet/minecraftforge/registries/DeferredRegister;register(Ljava/lang/String;Ljava/util/function/Supplier;)Lnet/minecraftforge/registries/RegistryObject;",
-                            ordinal = 0))
+                            ordinal = 0), remap = false)
     private static RegistryObject<Attribute> paraglidersStaminaCompats$delegateToParaglider(
             DeferredRegister<Attribute> owner, final String name, final Supplier<?> sup) {
         return Contents.MAX_STAMINA;

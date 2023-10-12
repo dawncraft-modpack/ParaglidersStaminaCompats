@@ -57,12 +57,12 @@ public abstract class MixinPlayerPatch<T extends Player> extends LivingEntityPat
                 () -> player.getCapability(Caps.playerMovement).resolve().orElseThrow());
     }
 
-    @ModifyConstant(method = "initAttributes", constant = @Constant(doubleValue = 15.0))
+    @ModifyConstant(method = "initAttributes", constant = @Constant(doubleValue = 15.0), remap = false)
     private double paraglidersStaminaCompats$removeDefaultMaxStamina(double constant) {
         return 0.0;
     }
 
-    @ModifyConstant(method = "initAttributes", constant = @Constant(doubleValue = 1.0))
+    @ModifyConstant(method = "initAttributes", constant = @Constant(doubleValue = 1.0), remap = false)
     private double paraglidersStaminaCompats$removeDefaultStaminaRegen(double constant) {
         return 0.0;
     }

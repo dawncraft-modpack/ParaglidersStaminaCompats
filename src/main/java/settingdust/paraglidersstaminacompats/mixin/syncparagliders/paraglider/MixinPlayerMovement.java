@@ -19,7 +19,7 @@ import yesman.epicfight.world.entity.ai.attribute.EpicFightAttributes;
 
 @Mixin(PlayerMovement.class)
 public class MixinPlayerMovement implements PlayerMovementPatch {
-    @Shadow
+    @Shadow(remap = false)
     @Final
     public Player player;
 
@@ -28,7 +28,7 @@ public class MixinPlayerMovement implements PlayerMovementPatch {
 
     @ModifyExpressionValue(
             method = "updateStamina",
-            at = @At(value = "INVOKE", target = "Ltictim/paraglider/capabilities/PlayerState;change()I", ordinal = 2))
+            at = @At(value = "INVOKE", target = "Ltictim/paraglider/capabilities/PlayerState;change()I", ordinal = 2), remap = false)
     private int paraglidersStaminaCompats$applyEFRegen(int original) {
         return original + (int) player.getAttributeValue(EpicFightAttributes.STAMINA_REGEN.get());
     }

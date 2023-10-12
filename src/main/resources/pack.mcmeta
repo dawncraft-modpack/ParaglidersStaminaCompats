@@ -3,6 +3,7 @@
     "description": "paraglidersstaminaapi resources",
     "pack_format": 9,
     "forge:resource_pack_format": 8,
-    "forge:data_pack_format": 9
+    "forge:data_pack_format": 9,
+    "patched:has_patches": true // Indicates to Patched that this pack would like to patch things.
   }
 }

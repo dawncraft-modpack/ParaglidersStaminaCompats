@@ -5,16 +5,18 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "paraglidersstaminacompats.refmap.json",
   "mixins": [
-    "epicfight.exhaustedanimation.MixinPlayerPatch",
-    "epicfight.morestamina.MixinItemCapabilityReloadListener",
-    "epicfight.morestamina.MixinBasicAttack",
-    "epicfight.syncparagliders.MixinPlayerPatch",
-    "paragliders.battlemoderender.MixinClientPlayerMovement",
-    "paragliders.wheel.InGameStaminaWheelRendererMixin"
+    "battlemoderender.MixinClientPlayerMovement",
+    "exhaustedanimation.MixinPlayerPatch",
+    "morestamina.MixinBasicAttack",
+    "morestamina.MixinItemCapabilityReloadListener",
+    "staminawheel.InGameStaminaWheelRendererMixin",
+    "syncparagliders.epicfight.MixinEpicFightAttributes",
+    "syncparagliders.epicfight.MixinPlayerPatch",
+    "syncparagliders.paraglider.MixinPlayerMovement"
   ],
   "client": [
-    "epicfight.disablestaminabar.MixinBattleModeGui",
-    "epicfight.exhaustedanimation.MixinClientAnimator"
+    "disablestaminabar.MixinBattleModeGui",
+    "exhaustedanimation.MixinClientAnimator"
   ],
   "injectors": {
     "defaultRequire": 1

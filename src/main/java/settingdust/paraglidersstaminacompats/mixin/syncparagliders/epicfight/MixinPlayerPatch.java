@@ -75,7 +75,7 @@ public abstract class MixinPlayerPatch<T extends Player> extends LivingEntityPat
                 () -> new IllegalStateException("PlayerMovement not initialized for " + original.getName()));
     }
 
-    @ModifyReturnValue(method = "getMaxStamina", at = @At("TAIL"), remap = false)
+    @Inject(method = "getMaxStamina", at = @At("HEAD"), cancellable = true, remap = false)
     private void paraglidersStaminaCompats$getMaxStamina(CallbackInfoReturnable<Float> cir) {
         PlayerMovement playerMovement = paraglidersStaminaCompats$getPlayerMovement();
         cir.setReturnValue((float) playerMovement.getMaxStamina());

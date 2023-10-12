@@ -1,4 +1,4 @@
-package settingdust.paraglidersstaminacompats.mixin.paragliders.battlemoderender;
+package settingdust.paraglidersstaminacompats.mixin.battlemoderender;
 
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.util.LazyOptional;

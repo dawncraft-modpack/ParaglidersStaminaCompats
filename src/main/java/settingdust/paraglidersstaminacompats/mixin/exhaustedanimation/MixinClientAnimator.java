@@ -1,4 +1,4 @@
-package settingdust.paraglidersstaminacompats.mixin.epicfight.exhaustedanimation;
+package settingdust.paraglidersstaminacompats.mixin.exhaustedanimation;
 
 import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.Item;

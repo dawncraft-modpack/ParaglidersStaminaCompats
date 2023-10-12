@@ -1,4 +1,4 @@
-package settingdust.paraglidersstaminacompats.mixin.epicfight.morestamina;
+package settingdust.paraglidersstaminacompats.mixin.morestamina;
 
 import com.google.gson.Gson;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;

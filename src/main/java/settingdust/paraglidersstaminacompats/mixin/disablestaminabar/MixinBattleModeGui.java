@@ -1,4 +1,4 @@
-package settingdust.paraglidersstaminacompats.mixin.epicfight.disablestaminabar;
+package settingdust.paraglidersstaminacompats.mixin.disablestaminabar;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

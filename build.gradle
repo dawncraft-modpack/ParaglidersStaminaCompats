@@ -181,6 +181,7 @@ dependencies {
 
     implementation fg.deobf('curse.maven:epicfight-405076:4785517')
     implementation fg.deobf('curse.maven:paragliders-289240:4478246')
+    implementation fg.deobf("curse.maven:weapons-of-miracles-epicfight-918614:4793927")
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.

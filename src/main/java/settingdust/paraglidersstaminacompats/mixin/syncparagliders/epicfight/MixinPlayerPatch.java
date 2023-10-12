@@ -1,5 +1,6 @@
-package settingdust.paraglidersstaminacompats.mixin.epicfight.syncparagliders;
+package settingdust.paraglidersstaminacompats.mixin.syncparagliders.epicfight;
 
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.player.Player;
@@ -9,9 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import settingdust.paraglidersstaminacompats.ParaglidersStaminaCompatsConfig;
@@ -58,6 +57,16 @@ public abstract class MixinPlayerPatch<T extends Player> extends LivingEntityPat
                 () -> player.getCapability(Caps.playerMovement).resolve().orElseThrow());
     }
 
+    @ModifyConstant(method = "initAttributes", constant = @Constant(doubleValue = 15.0))
+    private double paraglidersStaminaCompats$removeDefaultMaxStamina(double constant) {
+        return 0.0;
+    }
+
+    @ModifyConstant(method = "initAttributes", constant = @Constant(doubleValue = 1.0))
+    private double paraglidersStaminaCompats$removeDefaultStaminaRegen(double constant) {
+        return 0.0;
+    }
+
     @Unique
     @NotNull
     @Override
@@ -66,7 +75,7 @@ public abstract class MixinPlayerPatch<T extends Player> extends LivingEntityPat
                 () -> new IllegalStateException("PlayerMovement not initialized for " + original.getName()));
     }
 
-    @Inject(method = "getMaxStamina", at = @At("HEAD"), cancellable = true, remap = false)
+    @ModifyReturnValue(method = "getMaxStamina", at = @At("TAIL"), remap = false)
     private void paraglidersStaminaCompats$getMaxStamina(CallbackInfoReturnable<Float> cir) {
         PlayerMovement playerMovement = paraglidersStaminaCompats$getPlayerMovement();
         cir.setReturnValue((float) playerMovement.getMaxStamina());
@@ -106,7 +115,8 @@ public abstract class MixinPlayerPatch<T extends Player> extends LivingEntityPat
                     @At(
                             value = "INVOKE",
                             target =
-                                    "Lyesman/epicfight/world/capabilities/entitypatch/player/PlayerPatch;getStamina()F"), remap = false)
+                                    "Lyesman/epicfight/world/capabilities/entitypatch/player/PlayerPatch;getStamina()F"),
+            remap = false)
     private float paraglidersStaminaCompats$makeStaminaZero(PlayerPatch<T> instance) {
         return 0;
     }
@@ -120,7 +130,8 @@ public abstract class MixinPlayerPatch<T extends Player> extends LivingEntityPat
                     @At(
                             value = "INVOKE",
                             target =
-                                    "Lyesman/epicfight/world/capabilities/entitypatch/player/PlayerPatch;getMaxStamina()F"), remap = false)
+                                    "Lyesman/epicfight/world/capabilities/entitypatch/player/PlayerPatch;getMaxStamina()F"),
+            remap = false)
     private float paraglidersStaminaCompats$makeMaxStaminaZero(PlayerPatch<T> instance) {
         return 0;
     }

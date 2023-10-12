@@ -1,4 +1,4 @@
-package settingdust.paraglidersstaminacompats.mixin.paragliders.wheel;
+package settingdust.paraglidersstaminacompats.mixin.staminawheel;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;

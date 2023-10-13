@@ -41,13 +41,12 @@ public class SkillListener {
             Map<Attribute, AttributeModifier> attributes =
                     itemCapability.getDamageAttributesInCondition(CapabilityItem.Styles.COMMON);
             Attribute attribute = ParaglidersStaminaCompatsAttributes.WEAPON_STAMINA_CONSUMPTION.get();
-            PlayerMovement playerMovement = ((PlayerPatchMovement) playerPatch).paraglidersStaminaCompats$getPlayerMovement();
             if (attributes.containsKey(attribute)) {
-                playerMovement.takeStamina((int) attributes.get(attribute).getAmount(), false, false);
+                e.setAmount(e.getAmount() + (int) attributes.get(attribute).getAmount());
             } else {
                 WeaponCategory category = itemCapability.getWeaponCategory();
                 ForgeConfigSpec.IntValue value = ParaglidersStaminaCompatsConfig.WEAPON_CATEGORIES_COMMON_CONSUMPTION.get(category);
-                playerMovement.takeStamina(value.get(), false, false);
+                e.setAmount(e.getAmount() + value.get());
             }
         });
     }

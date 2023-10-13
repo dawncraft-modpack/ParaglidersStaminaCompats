@@ -13,12 +13,25 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'net.minecraftforge.gradle' version '[6.0,6.2)'
+
+    id "com.figure.gradle.semver-plugin" version "1.9.1"
 }
 
 apply plugin: 'org.spongepowered.mixin'
 
+// The semver extension must be declared before invoking semver.version
+semver {
+    // All properties are optional, but it's a good idea to declare those that you would want
+    // to override with Gradle properties or environment variables, e.g. "overrideVersion" below
+    tagPrefix "v"
+    initialVersion "0.0.0"
+    if(findProperty("semver.overrideVersion") != null) {
+        overrideVersion(findProperty("semver.overrideVersion").toString())
+    }
+}
+
 group = mod_group_id
-version = mod_version
+version = semver.version
 
 base {
     archivesName = mod_id

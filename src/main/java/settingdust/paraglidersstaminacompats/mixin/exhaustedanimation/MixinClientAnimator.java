@@ -2,7 +2,9 @@ package settingdust.paraglidersstaminacompats.mixin.exhaustedanimation;
 
 import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.Item;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -13,6 +15,7 @@ import tictim.paraglider.capabilities.PlayerMovement;
 import yesman.epicfight.api.animation.Animator;
 import yesman.epicfight.api.animation.LivingMotion;
 import yesman.epicfight.api.animation.LivingMotions;
+import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.api.client.animation.ClientAnimator;
 import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
@@ -21,8 +24,14 @@ import yesman.epicfight.world.capabilities.item.CapabilityItem;
 import yesman.epicfight.world.capabilities.item.Style;
 import yesman.epicfight.world.item.*;
 
+import java.util.Map;
+
 @Mixin(ClientAnimator.class)
 public abstract class MixinClientAnimator extends Animator {
+    @Shadow
+    @Final
+    private Map<LivingMotion, StaticAnimation> compositeLivingAnimations;
+
     @Inject(method = "poseTick", at = @At("TAIL"), remap = false)
     private void paraglidersStaminaCompats$addExhaustedAnimations(CallbackInfo ci) {
         if (entitypatch instanceof PlayerPatch<?> playerPatch) {

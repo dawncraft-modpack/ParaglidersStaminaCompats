@@ -36,7 +36,7 @@ public class ParaglidersStaminaCompatsConfig {
         Objects.requireNonNull(CapabilityItem.WeaponCategories.AXE);
         for (WeaponCategory category : WeaponCategory.ENUM_MANAGER.universalValues()) {
             WEAPON_CATEGORIES_COMMON_CONSUMPTION.put(
-                    category, serverConfig.defineInRange(category.toString(), 2, 0, 1000));
+                    category, serverConfig.defineInRange(category.toString(), 2, Integer.MIN_VALUE, Integer.MAX_VALUE));
         }
         serverConfig.pop();
         serverConfig.pop();

@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import settingdust.paraglidersstaminacompats.epicfight.PlayerPatchMovement;
+import settingdust.paraglidersstaminacompats.PlayerPatchMovement;
 import tictim.paraglider.capabilities.Caps;
 import tictim.paraglider.capabilities.PlayerMovement;
 import tictim.paraglider.capabilities.ServerPlayerMovement;
@@ -83,21 +83,21 @@ public abstract class MixinPlayerPatch<T extends Player> extends LivingEntityPat
     @Inject(method = "getMaxStamina", at = @At("HEAD"), cancellable = true, remap = false)
     private void paraglidersStaminaCompats$getMaxStamina(CallbackInfoReturnable<Float> cir) {
         PlayerMovement playerMovement = paraglidersStaminaCompats$getPlayerMovement();
-        cir.setReturnValue((float) playerMovement.getMaxStamina());
+        cir.setReturnValue((float) playerMovement.getDoubleMaxStamina());
         cir.cancel();
     }
 
     @Inject(method = "getStamina", at = @At("HEAD"), cancellable = true, remap = false)
     private void paraglidersStaminaCompats$getStamina(CallbackInfoReturnable<Float> cir) {
         PlayerMovement playerMovement = paraglidersStaminaCompats$getPlayerMovement();
-        cir.setReturnValue(playerMovement.isDepleted() ? 0 : (float) playerMovement.getStamina());
+        cir.setReturnValue(playerMovement.isDepleted() ? 0 : (float) playerMovement.getDoubleStamina());
         cir.cancel();
     }
 
     @Inject(method = "setStamina", at = @At("HEAD"), cancellable = true, remap = false)
     private void paraglidersStaminaCompats$setStamina(float value, CallbackInfo ci) {
         PlayerMovement playerMovement = paraglidersStaminaCompats$getPlayerMovement();
-        playerMovement.setStamina((int) value);
+        playerMovement.setStamina(value);
         if (playerMovement.getRecoveryDelay() <= 0) playerMovement.setRecoveryDelay(30);
         if (playerMovement instanceof ServerPlayerMovement serverPlayerMovement) {
             serverPlayerMovement.movementNeedsSync = true;

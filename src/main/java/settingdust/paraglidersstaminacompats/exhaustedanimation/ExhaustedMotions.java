@@ -1,4 +1,4 @@
-package settingdust.paraglidersstaminacompats.epicfight.exhaustedanimation;
+package settingdust.paraglidersstaminacompats.exhaustedanimation;
 
 import yesman.epicfight.api.animation.LivingMotion;
 
@@ -25,7 +25,7 @@ public enum ExhaustedMotions implements LivingMotion {
     EXHAUSTED_WALK_UCHIGATANA;
     final int id;
 
-    private ExhaustedMotions() {
+    ExhaustedMotions() {
         this.id = LivingMotion.ENUM_MANAGER.assign(this);
     }
 

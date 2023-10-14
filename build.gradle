@@ -160,6 +160,7 @@ repositories {
             includeGroup "curse.maven"
         }
     }
+    mavenLocal()
 }
 
 dependencies {
@@ -193,7 +194,7 @@ dependencies {
     }
 
     implementation fg.deobf('curse.maven:epicfight-405076:4794936')
-    implementation fg.deobf('curse.maven:paragliders-289240:4478246')
+    implementation fg.deobf('tictim.paraglider:ParagliderWithDoubleStamina:1.7.3')
     implementation fg.deobf("curse.maven:weapons-of-miracles-epicfight-918614:4793927")
 }
 

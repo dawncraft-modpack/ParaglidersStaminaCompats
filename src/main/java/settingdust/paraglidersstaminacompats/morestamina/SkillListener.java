@@ -1,10 +1,8 @@
-package settingdust.paraglidersstaminacompats.epicfight.morestamina;
+package settingdust.paraglidersstaminacompats.morestamina;
 
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -13,8 +11,6 @@ import net.minecraftforge.fml.common.Mod;
 import settingdust.paraglidersstaminacompats.ParaglidersStaminaCompats;
 import settingdust.paraglidersstaminacompats.ParaglidersStaminaCompatsAttributes;
 import settingdust.paraglidersstaminacompats.ParaglidersStaminaCompatsConfig;
-import settingdust.paraglidersstaminacompats.epicfight.PlayerPatchMovement;
-import tictim.paraglider.capabilities.PlayerMovement;
 import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 import yesman.epicfight.world.capabilities.entitypatch.player.ServerPlayerPatch;
 import yesman.epicfight.world.capabilities.item.CapabilityItem;
@@ -27,8 +23,6 @@ import java.util.UUID;
 @Mod.EventBusSubscriber(modid = ParaglidersStaminaCompats.MOD_ID)
 public class SkillListener {
     private static final UUID SKILL_CONSUME_EVENT_ID = UUID.fromString("b35ac1ea-8672-76a8-698e-78c41e8a6238");
-    private static final UUID BASIC_ATTACK_EVENT_ID = UUID.fromString("b0ce42e4-1c44-dbb1-0a4d-29f68802b5fa");
-
     @SubscribeEvent
     public void onEntityJoinWorld(EntityJoinWorldEvent event) {
         if (event.getWorld().isClientSide) return;
@@ -42,7 +36,7 @@ public class SkillListener {
                     itemCapability.getDamageAttributesInCondition(CapabilityItem.Styles.COMMON);
             Attribute attribute = ParaglidersStaminaCompatsAttributes.WEAPON_STAMINA_CONSUMPTION.get();
             if (attributes.containsKey(attribute)) {
-                e.setAmount(e.getAmount() + (int) attributes.get(attribute).getAmount());
+                e.setAmount((float) (e.getAmount() + attributes.get(attribute).getAmount()));
             } else {
                 WeaponCategory category = itemCapability.getWeaponCategory();
                 ForgeConfigSpec.IntValue value = ParaglidersStaminaCompatsConfig.WEAPON_CATEGORIES_COMMON_CONSUMPTION.get(category);

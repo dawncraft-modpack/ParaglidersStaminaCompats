@@ -1,4 +1,4 @@
-package settingdust.paraglidersstaminacompats.epicfight;
+package settingdust.paraglidersstaminacompats;
 
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Unique;

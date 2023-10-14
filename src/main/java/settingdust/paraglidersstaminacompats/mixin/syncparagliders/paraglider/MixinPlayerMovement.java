@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import settingdust.paraglidersstaminacompats.epicfight.PlayerMovementPatch;
+import settingdust.paraglidersstaminacompats.PlayerMovementPatch;
 import tictim.paraglider.capabilities.PlayerMovement;
 import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
@@ -28,9 +28,9 @@ public class MixinPlayerMovement implements PlayerMovementPatch {
 
     @ModifyExpressionValue(
             method = "updateStamina",
-            at = @At(value = "INVOKE", target = "Ltictim/paraglider/capabilities/PlayerState;change()I", ordinal = 2), remap = false)
-    private int paraglidersStaminaCompats$applyEFRegen(int original) {
-        return original + (int) player.getAttributeValue(EpicFightAttributes.STAMINA_REGEN.get());
+            at = @At(value = "INVOKE", target = "Ltictim/paraglider/capabilities/PlayerState;doubleChange()D", ordinal = 2), remap = false)
+    private double paraglidersStaminaCompats$applyEFRegen(double original) {
+        return original + player.getAttributeValue(EpicFightAttributes.STAMINA_REGEN.get());
     }
 
     @Inject(method = "<init>", at = @At("TAIL"))

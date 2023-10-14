@@ -1,4 +1,4 @@
-package settingdust.paraglidersstaminacompats.epicfight;
+package settingdust.paraglidersstaminacompats;
 
 import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.NotNull;

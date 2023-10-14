@@ -16,10 +16,10 @@ import tictim.paraglider.utils.Color;
 @Mixin(value = InGameStaminaWheelRenderer.class, remap = false)
 public abstract class MixinInGameStaminaWheelRenderer extends StaminaWheelRenderer {
     @Shadow
-    private int prevStamina;
+    private double prevStamina;
 
     @Unique
-    private int paraglidersStaminaCompats$deltaStamina = 0;
+    private double paraglidersStaminaCompats$deltaStamina = 0;
 
     @Unique
     private static final int paraglidersStaminaCompats$deltaRenderFactor = 1;
@@ -29,11 +29,11 @@ public abstract class MixinInGameStaminaWheelRenderer extends StaminaWheelRender
             at =
                     @At(
                             value = "INVOKE",
-                            target = "Ltictim/paraglider/capabilities/PlayerMovement;getMaxStamina()I",
+                            target = "Ltictim/paraglider/capabilities/PlayerMovement;getDoubleMaxStamina()D",
                             shift = At.Shift.BEFORE),
             remap = false)
     public void paraglidersStaminaCompats$getDelta(
-            PlayerMovement movement, CallbackInfo ci, @Local(name = "stamina") int stamina) {
+            PlayerMovement movement, CallbackInfo ci, @Local(name = "stamina") double stamina) {
         if (!movement.getState().isConsume() && prevStamina > stamina)
             paraglidersStaminaCompats$deltaStamina +=
                     (prevStamina - stamina) * paraglidersStaminaCompats$deltaRenderFactor;
@@ -49,7 +49,7 @@ public abstract class MixinInGameStaminaWheelRenderer extends StaminaWheelRender
     private void paraglidersStaminaCompats$applyFinalDeltaWhenNoConsume(
             PlayerMovement playerMovement,
             CallbackInfo ci,
-            @Local(name = "stamina") int stamina,
+            @Local(name = "stamina") double stamina,
             @Local(ordinal = 0) WheelLevel level,
             @Local Color color,
             @Local PlayerState state) {

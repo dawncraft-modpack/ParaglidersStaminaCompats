@@ -15,13 +15,19 @@ public class ParaglidersStaminaCompatsConfig {
 
     public static final ForgeConfigSpec.DoubleValue AIMING_CONSUMPTION;
 
-    public static final Map<WeaponCategory, ForgeConfigSpec.IntValue> WEAPON_CATEGORIES_COMMON_CONSUMPTION =
+    public static final ForgeConfigSpec.BooleanValue WEAPON_INNATE_SKILL_CONSUMPTION;
+
+    public static final Map<WeaponCategory, ForgeConfigSpec.DoubleValue> WEAPON_CATEGORIES_COMMON_CONSUMPTION =
             Maps.newHashMap();
 
     static {
         ForgeConfigSpec.Builder serverConfig = new ForgeConfigSpec.Builder();
         serverConfig.push("EpicFight");
         serverConfig.push("Stamina consumption");
+        WEAPON_INNATE_SKILL_CONSUMPTION = serverConfig
+                .comment(
+                        "Whether the skills that consuming weapon innate consume stamina defined in the weapon category")
+                .define("weapon_innate_skill_consumption", true);
         CHARGING_CONSUMPTION = serverConfig
                 .comment("How much is the charging consuming stamina every tick(20t = 1s)")
                 .defineInRange("charging", 1, 0.0, 100.0);
@@ -36,7 +42,8 @@ public class ParaglidersStaminaCompatsConfig {
         Objects.requireNonNull(CapabilityItem.WeaponCategories.AXE);
         for (WeaponCategory category : WeaponCategory.ENUM_MANAGER.universalValues()) {
             WEAPON_CATEGORIES_COMMON_CONSUMPTION.put(
-                    category, serverConfig.defineInRange(category.toString(), 2, Integer.MIN_VALUE, Integer.MAX_VALUE));
+                    category,
+                    serverConfig.defineInRange(category.toString(), 2.0, Integer.MIN_VALUE, Integer.MAX_VALUE));
         }
         serverConfig.pop();
         serverConfig.pop();

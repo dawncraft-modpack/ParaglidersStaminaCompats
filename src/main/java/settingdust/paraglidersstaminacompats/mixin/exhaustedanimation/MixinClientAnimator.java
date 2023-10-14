@@ -28,10 +28,6 @@ import java.util.Map;
 
 @Mixin(ClientAnimator.class)
 public abstract class MixinClientAnimator extends Animator {
-    @Shadow
-    @Final
-    private Map<LivingMotion, StaticAnimation> compositeLivingAnimations;
-
     @Inject(method = "poseTick", at = @At("TAIL"), remap = false)
     private void paraglidersStaminaCompats$addExhaustedAnimations(CallbackInfo ci) {
         if (entitypatch instanceof PlayerPatch<?> playerPatch) {

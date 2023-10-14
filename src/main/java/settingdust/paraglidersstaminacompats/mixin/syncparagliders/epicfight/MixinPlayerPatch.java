@@ -107,7 +107,12 @@ public abstract class MixinPlayerPatch<T extends Player> extends LivingEntityPat
 
     @Inject(method = "hasStamina", at = @At("HEAD"), cancellable = true, remap = false)
     private void paraglidersStaminaCompats$hasStamina(float amount, CallbackInfoReturnable<Boolean> cir) {
-        cir.setReturnValue(getStamina() >= amount);
+        boolean result = getStamina() >= amount;
+        if (!result) {
+            PlayerMovement playerMovement = paraglidersStaminaCompats$getPlayerMovement();
+            playerMovement.setDepleted(true);
+        }
+        cir.setReturnValue(result);
         cir.cancel();
     }
 

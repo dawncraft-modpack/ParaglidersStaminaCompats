@@ -1,12 +1,14 @@
 package settingdust.paraglidersstaminacompats.mixin.staminawheel;
 
 import com.llamalad7.mixinextras.sugar.Local;
+import net.minecraftforge.common.util.Lazy;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import tictim.paraglider.ModCfg;
 import tictim.paraglider.capabilities.PlayerMovement;
 import tictim.paraglider.capabilities.PlayerState;
 import tictim.paraglider.client.InGameStaminaWheelRenderer;
@@ -22,7 +24,7 @@ public abstract class MixinInGameStaminaWheelRenderer extends StaminaWheelRender
     private double paraglidersStaminaCompats$deltaStamina = 0;
 
     @Unique
-    private static final int paraglidersStaminaCompats$deltaRenderFactor = 1;
+    private final Lazy<Double> paraglidersStaminaCompats$deltaRenderFactor = Lazy.of(() -> 1000 / ModCfg.startingStamina());
 
     @Inject(
             method = "makeWheel",
@@ -36,7 +38,7 @@ public abstract class MixinInGameStaminaWheelRenderer extends StaminaWheelRender
             PlayerMovement movement, CallbackInfo ci, @Local(name = "stamina") double stamina) {
         if (!movement.getState().isConsume() && prevStamina > stamina)
             paraglidersStaminaCompats$deltaStamina +=
-                    (prevStamina - stamina) * paraglidersStaminaCompats$deltaRenderFactor;
+                    (prevStamina - stamina) * paraglidersStaminaCompats$deltaRenderFactor.get();
     }
 
     @Inject(
@@ -58,7 +60,7 @@ public abstract class MixinInGameStaminaWheelRenderer extends StaminaWheelRender
                     level,
                     level.getProportion(stamina),
                     level.getProportion(stamina
-                            + paraglidersStaminaCompats$deltaStamina / paraglidersStaminaCompats$deltaRenderFactor),
+                            + paraglidersStaminaCompats$deltaStamina / paraglidersStaminaCompats$deltaRenderFactor.get()),
                     color);
         }
         if (playerMovement.getRecoveryDelay() == 0) paraglidersStaminaCompats$deltaStamina = 0;

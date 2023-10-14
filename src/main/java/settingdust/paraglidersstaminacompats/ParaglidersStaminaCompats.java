@@ -4,6 +4,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import settingdust.paraglidersstaminacompats.morestamina.ShieldListener;
 import settingdust.paraglidersstaminacompats.morestamina.SkillListener;
 
 import java.util.Objects;
@@ -32,6 +33,7 @@ public class ParaglidersStaminaCompats {
         Objects.requireNonNull(ParaglidersStaminaCompatsConfig.CHARGING_CONSUMPTION);
 
         MinecraftForge.EVENT_BUS.register(new SkillListener());
+        MinecraftForge.EVENT_BUS.register(new ShieldListener());
     }
 //
 //    private void setup(final FMLCommonSetupEvent event) {

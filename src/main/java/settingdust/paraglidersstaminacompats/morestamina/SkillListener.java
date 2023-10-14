@@ -11,11 +11,9 @@ import settingdust.paraglidersstaminacompats.ParaglidersStaminaCompats;
 import settingdust.paraglidersstaminacompats.ParaglidersStaminaCompatsAttributes;
 import settingdust.paraglidersstaminacompats.ParaglidersStaminaCompatsConfig;
 import settingdust.paraglidersstaminacompats.PlayerPatchMovement;
-import tictim.paraglider.capabilities.ServerPlayerMovement;
 import yesman.epicfight.skill.Skill;
 import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
-import yesman.epicfight.world.capabilities.entitypatch.player.ServerPlayerPatch;
 import yesman.epicfight.world.capabilities.item.CapabilityItem;
 import yesman.epicfight.world.entity.eventlistener.PlayerEventListener;
 

@@ -11,7 +11,9 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import settingdust.paraglidersstaminacompats.ParaglidersStaminaCompats;
 import settingdust.paraglidersstaminacompats.PlayerPatchMovement;
+import settingdust.paraglidersstaminacompats.morestamina.C2SMakeDepleted;
 import tictim.paraglider.capabilities.Caps;
 import tictim.paraglider.capabilities.PlayerMovement;
 import tictim.paraglider.capabilities.ServerPlayerMovement;
@@ -22,18 +24,6 @@ import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 public abstract class MixinPlayerPatch<T extends Player> extends LivingEntityPatch<T> implements PlayerPatchMovement {
     @Shadow(remap = false)
     public abstract float getStamina();
-
-    @Shadow(remap = false)
-    protected int chargingAmount;
-
-    @Shadow(remap = false)
-    public abstract boolean isChargingSkill();
-
-    @Shadow(remap = false)
-    public abstract void resetSkillCharging();
-
-    @Shadow(remap = false)
-    public abstract boolean hasStamina(float amount);
 
     @Unique
     private LazyOptional<PlayerMovement> paraglidersStaminaCompats$playerMovement;
@@ -51,7 +41,7 @@ public abstract class MixinPlayerPatch<T extends Player> extends LivingEntityPat
     @Inject(method = "onConstructed*", at = @At("RETURN"), remap = false)
     private void paraglidersStaminaCompats$initPlayerMovement(T player, CallbackInfo ci) {
         paraglidersStaminaCompats$playerMovement = LazyOptional.of(
-                () -> player.getCapability(Caps.playerMovement).resolve().orElseThrow());
+                () -> PlayerMovement.of(player));
     }
 
     @ModifyConstant(method = "initAttributes", constant = @Constant(doubleValue = 15.0), remap = false)
@@ -110,7 +100,10 @@ public abstract class MixinPlayerPatch<T extends Player> extends LivingEntityPat
         boolean result = getStamina() >= amount;
         if (!result) {
             PlayerMovement playerMovement = paraglidersStaminaCompats$getPlayerMovement();
-            playerMovement.setDepleted(true);
+            if (!playerMovement.isDepleted()) {
+                playerMovement.setDepleted(true);
+                ParaglidersStaminaCompats.NETWORK_MANAGER.sendToServer(new C2SMakeDepleted());
+            }
         }
         cir.setReturnValue(result);
         cir.cancel();

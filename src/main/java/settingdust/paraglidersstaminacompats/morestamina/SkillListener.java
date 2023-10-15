@@ -34,6 +34,7 @@ public class SkillListener {
                 PlayerEventListener.EventType.SKILL_CONSUME_EVENT,
                 SKILL_CONSUME_EVENT_ID,
                 e -> {
+                    if (!e.shouldConsume()) return;
                     ItemStack itemStack = player.getMainHandItem();
                     CapabilityItem itemCapability = EpicFightCapabilities.getItemStackCapability(itemStack);
                     Map<Attribute, AttributeModifier> attributes =

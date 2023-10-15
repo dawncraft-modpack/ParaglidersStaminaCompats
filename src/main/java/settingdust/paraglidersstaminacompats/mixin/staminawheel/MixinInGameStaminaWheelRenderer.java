@@ -24,7 +24,8 @@ public abstract class MixinInGameStaminaWheelRenderer extends StaminaWheelRender
     private double paraglidersStaminaCompats$deltaStamina = 0;
 
     @Unique
-    private final Lazy<Double> paraglidersStaminaCompats$deltaRenderFactor = Lazy.of(() -> 1000 / ModCfg.startingStamina());
+    private final Lazy<Double> paraglidersStaminaCompats$deltaRenderFactor =
+            Lazy.of(() -> 1000 / ModCfg.startingStamina() / 3);
 
     @Inject(
             method = "makeWheel",
@@ -36,9 +37,14 @@ public abstract class MixinInGameStaminaWheelRenderer extends StaminaWheelRender
             remap = false)
     public void paraglidersStaminaCompats$getDelta(
             PlayerMovement movement, CallbackInfo ci, @Local(name = "stamina") double stamina) {
-        if (!movement.getState().isConsume() && prevStamina > stamina)
-            paraglidersStaminaCompats$deltaStamina +=
-                    (prevStamina - stamina) * paraglidersStaminaCompats$deltaRenderFactor.get();
+        if (movement.getRecoveryDelay() == 0) paraglidersStaminaCompats$deltaStamina = 0;
+        else if (!movement.getState().isConsume() && prevStamina > stamina) {
+            paraglidersStaminaCompats$deltaStamina = Math.min(
+                            paraglidersStaminaCompats$deltaRenderFactor.get() * 2,
+                            paraglidersStaminaCompats$deltaStamina + (prevStamina - stamina))
+                    * paraglidersStaminaCompats$deltaRenderFactor.get();
+        }
+        if (paraglidersStaminaCompats$deltaStamina > 0) paraglidersStaminaCompats$deltaStamina--;
     }
 
     @Inject(
@@ -60,10 +66,9 @@ public abstract class MixinInGameStaminaWheelRenderer extends StaminaWheelRender
                     level,
                     level.getProportion(stamina),
                     level.getProportion(stamina
-                            + paraglidersStaminaCompats$deltaStamina / paraglidersStaminaCompats$deltaRenderFactor.get()),
+                            + paraglidersStaminaCompats$deltaStamina
+                                    / paraglidersStaminaCompats$deltaRenderFactor.get()),
                     color);
         }
-        if (playerMovement.getRecoveryDelay() == 0) paraglidersStaminaCompats$deltaStamina = 0;
-        if (paraglidersStaminaCompats$deltaStamina > 0) paraglidersStaminaCompats$deltaStamina--;
     }
 }

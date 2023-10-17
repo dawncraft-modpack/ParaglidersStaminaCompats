@@ -2,6 +2,7 @@ package settingdust.paraglidersstaminacompats.mixin.morestamina;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import yesman.epicfight.skill.BasicAttack;
 import yesman.epicfight.skill.Skill;

@@ -11,6 +11,7 @@ import settingdust.paraglidersstaminacompats.ParaglidersStaminaCompats;
 import settingdust.paraglidersstaminacompats.ParaglidersStaminaCompatsAttributes;
 import settingdust.paraglidersstaminacompats.ParaglidersStaminaCompatsConfig;
 import settingdust.paraglidersstaminacompats.PlayerPatchMovement;
+import tictim.paraglider.capabilities.ServerPlayerMovement;
 import yesman.epicfight.skill.Skill;
 import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
@@ -60,6 +61,8 @@ public class SkillListener {
                             e.setAmount((float) (e.getAmount() + value.get()));
                         }
                     }
+                    if (playerMovement instanceof ServerPlayerMovement serverPlayerMovement)
+                        serverPlayerMovement.movementNeedsSync = true;
                 },
                 1000 // priority need higher that ForbiddenStrengthSkill
                 );

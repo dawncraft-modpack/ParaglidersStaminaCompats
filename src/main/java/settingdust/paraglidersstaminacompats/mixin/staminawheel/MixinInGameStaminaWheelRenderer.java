@@ -2,6 +2,7 @@ package settingdust.paraglidersstaminacompats.mixin.staminawheel;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraftforge.common.util.Lazy;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -21,11 +22,20 @@ public abstract class MixinInGameStaminaWheelRenderer extends StaminaWheelRender
     private double prevStamina;
 
     @Unique
-    private double paraglidersStaminaCompats$deltaStamina = 0;
+    private double paraglidersStaminaCompats$deltaStamina;
 
     @Unique
-    private final Lazy<Double> paraglidersStaminaCompats$deltaRenderFactor =
-            Lazy.of(() -> 1000 / ModCfg.startingStamina() / 3);
+    private Lazy<Double> paraglidersStaminaCompats$deltaWidthFactor;
+
+    @Unique
+    private Lazy<Double> paraglidersStaminaCompats$deltaSpeedFactor;
+
+    @Inject(method = "<init>", at = @At("RETURN"))
+    private void paraglidersStaminaCompats$initFields(CallbackInfo ci) {
+        paraglidersStaminaCompats$deltaStamina = 0;
+        paraglidersStaminaCompats$deltaWidthFactor = Lazy.of(() -> ModCfg.startingStamina() / 1000 * 60 * 2);
+        paraglidersStaminaCompats$deltaSpeedFactor = Lazy.of(() -> ModCfg.startingStamina() / 1000 * 2);
+    }
 
     @Inject(
             method = "makeWheel",
@@ -40,11 +50,12 @@ public abstract class MixinInGameStaminaWheelRenderer extends StaminaWheelRender
         if (movement.getRecoveryDelay() == 0) paraglidersStaminaCompats$deltaStamina = 0;
         else if (!movement.getState().isConsume() && prevStamina > stamina) {
             paraglidersStaminaCompats$deltaStamina = Math.min(
-                            paraglidersStaminaCompats$deltaRenderFactor.get() * 2,
-                            paraglidersStaminaCompats$deltaStamina + (prevStamina - stamina))
-                    * paraglidersStaminaCompats$deltaRenderFactor.get();
+                    paraglidersStaminaCompats$deltaWidthFactor.get(),
+                    paraglidersStaminaCompats$deltaStamina + (prevStamina - stamina));
         }
-        if (paraglidersStaminaCompats$deltaStamina > 0) paraglidersStaminaCompats$deltaStamina--;
+        if (paraglidersStaminaCompats$deltaStamina > 0)
+            paraglidersStaminaCompats$deltaStamina = Math.max(
+                    paraglidersStaminaCompats$deltaStamina - paraglidersStaminaCompats$deltaSpeedFactor.get(), 0);
     }
 
     @Inject(
@@ -65,9 +76,7 @@ public abstract class MixinInGameStaminaWheelRenderer extends StaminaWheelRender
             this.addWheel(
                     level,
                     level.getProportion(stamina),
-                    level.getProportion(stamina
-                            + paraglidersStaminaCompats$deltaStamina
-                                    / paraglidersStaminaCompats$deltaRenderFactor.get()),
+                    level.getProportion(stamina + paraglidersStaminaCompats$deltaStamina),
                     color);
         }
     }

@@ -35,7 +35,6 @@ public class SkillListener {
                 PlayerEventListener.EventType.SKILL_CONSUME_EVENT,
                 SKILL_CONSUME_EVENT_ID,
                 e -> {
-                    if (!e.shouldConsume()) return;
                     ItemStack itemStack = player.getMainHandItem();
                     CapabilityItem itemCapability = EpicFightCapabilities.getItemStackCapability(itemStack);
                     Map<Attribute, AttributeModifier> attributes =
@@ -45,6 +44,7 @@ public class SkillListener {
                     if (attributes.containsKey(attribute)) {
                         double attributeValue = attributes.get(attribute).getAmount();
                         if (e.getResourceType() == Skill.Resource.WEAPON_INNATE_ENERGY) {
+                            if (!e.shouldConsume()) return;
                             playerMovement.takeStamina(attributeValue, false, false);
                         } else {
                             e.setAmount((float) (e.getAmount() + attributeValue));
@@ -56,6 +56,7 @@ public class SkillListener {
                         final var value =
                                 ParaglidersStaminaCompatsConfig.WEAPON_CATEGORIES_COMMON_CONSUMPTION.get(category);
                         if (e.getResourceType() == Skill.Resource.WEAPON_INNATE_ENERGY) {
+                            if (!e.shouldConsume()) return;
                             playerMovement.takeStamina(value.get(), false, false);
                         } else {
                             e.setAmount((float) (e.getAmount() + value.get()));

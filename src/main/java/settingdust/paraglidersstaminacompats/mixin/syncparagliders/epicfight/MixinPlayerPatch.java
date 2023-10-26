@@ -15,6 +15,7 @@ import settingdust.paraglidersstaminacompats.ParaglidersStaminaCompats;
 import settingdust.paraglidersstaminacompats.PlayerPatchMovement;
 import settingdust.paraglidersstaminacompats.morestamina.C2SMakeDepleted;
 import tictim.paraglider.capabilities.Caps;
+import tictim.paraglider.capabilities.ClientPlayerMovement;
 import tictim.paraglider.capabilities.PlayerMovement;
 import tictim.paraglider.capabilities.ServerPlayerMovement;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
@@ -102,7 +103,11 @@ public abstract class MixinPlayerPatch<T extends Player> extends LivingEntityPat
             PlayerMovement playerMovement = paraglidersStaminaCompats$getPlayerMovement();
             if (!playerMovement.isDepleted()) {
                 playerMovement.setDepleted(true);
-                ParaglidersStaminaCompats.NETWORK_MANAGER.sendToServer(new C2SMakeDepleted());
+                if (playerMovement instanceof ServerPlayerMovement serverPlayerMovement) {
+                    serverPlayerMovement.movementNeedsSync = true;
+                } else {
+                    ParaglidersStaminaCompats.NETWORK_MANAGER.sendToServer(new C2SMakeDepleted());
+                }
             }
         }
         cir.setReturnValue(result);

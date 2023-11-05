@@ -11,6 +11,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import settingdust.paraglidersstaminacompats.ParaglidersStaminaCompatsConfig;
 import settingdust.paraglidersstaminacompats.PlayerPatchMovement;
 import tictim.paraglider.capabilities.PlayerMovement;
+import yesman.epicfight.client.ClientEngine;
+import yesman.epicfight.client.world.capabilites.entitypatch.player.LocalPlayerPatch;
+import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 
@@ -46,7 +49,10 @@ public abstract class MixinPlayerPatch extends LivingEntityPatch<Player> {
             if (hasStamina((float) result)) {
                 playerMovement.takeStamina(result, false, false);
                 playerMovement.setRecoveryDelay(30);
-            } else cancelAnyAction();
+            } else {
+                cancelAnyAction();
+                playAnimationSynchronized(Animations.BIPED_IDLE, 1.0f);
+            }
         }
     }
 }

@@ -18,7 +18,8 @@
   "client": [
     "disablestaminabar.MixinBattleModeGui",
     "exhaustedanimation.MixinClientAnimator",
-    "mainmenucrash.MixinControllEngineEvents"
+    "mainmenucrash.MixinControllEngineEvents",
+    "morestamina.ControllEngineAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

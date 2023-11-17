@@ -12,6 +12,7 @@
     "morestamina.MixinPlayerPatch",
     "staminawheel.MixinInGameStaminaWheelRenderer",
     "syncparagliders.epicfight.MixinEpicFightAttributes",
+    "syncparagliders.epicfight.MixinPassiveSkill",
     "syncparagliders.epicfight.MixinPlayerPatch",
     "syncparagliders.paraglider.MixinPlayerMovement"
   ],

@@ -52,6 +52,7 @@ public abstract class MixinPlayerPatch extends LivingEntityPatch<Player> {
             } else {
                 cancelAnyAction();
                 playAnimationSynchronized(Animations.BIPED_IDLE, 1.0f);
+                updateMotion(false);
             }
         }
     }

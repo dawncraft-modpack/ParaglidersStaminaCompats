@@ -43,7 +43,7 @@ public class ParaglidersStaminaCompatsConfig {
                 .comment(
                         "Define consumption for every weapon category. It's sum with the current skill consumption. This option will be overwrite by weapon's stamina cost attribute from data pack")
                 .push("Common");
-        Objects.requireNonNull(CapabilityItem.WeaponCategories.NOT_WEAON);
+        Objects.requireNonNull(CapabilityItem.WeaponCategories.NOT_WEAPON);
         for (WeaponCategory category : WeaponCategory.ENUM_MANAGER.universalValues()) {
             WEAPON_CATEGORIES_COMMON_CONSUMPTION.put(
                     category,

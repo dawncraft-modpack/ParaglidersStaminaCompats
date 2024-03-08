@@ -14,7 +14,8 @@
     "syncparagliders.epicfight.MixinEpicFightAttributes",
     "syncparagliders.epicfight.MixinPassiveSkill",
     "syncparagliders.epicfight.MixinPlayerPatch",
-    "syncparagliders.paraglider.MixinPlayerMovement"
+    "syncparagliders.paraglider.MixinPlayerMovement",
+    "syncparagliders.wom.TormentPassiveSkillMixin"
   ],
   "client": [
     "disablestaminabar.MixinBattleModeGui",

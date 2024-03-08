@@ -53,13 +53,14 @@ public class SkillListener {
                             e.setAmount((float) (e.getAmount() + attributeValue));
                     } else {
                         final var category = itemCapability.getWeaponCategory();
-                        final var value =
-                                ParaglidersStaminaCompatsConfig.WEAPON_CATEGORIES_COMMON_CONSUMPTION.get(category);
-                        if (e.getResourceType() == Skill.Resource.WEAPON_INNATE_ENERGY) {
-                            if (!e.shouldConsume()) return;
-                            playerMovement.takeStamina(value.get(), false, false);
-                        } else {
-                            e.setAmount((float) (e.getAmount() + value.get()));
+                        if (ParaglidersStaminaCompatsConfig.WEAPON_CATEGORIES_COMMON_CONSUMPTION.containsKey(category)) {
+                            final var value = ParaglidersStaminaCompatsConfig.WEAPON_CATEGORIES_COMMON_CONSUMPTION.get(category);
+                            if (e.getResourceType() == Skill.Resource.WEAPON_INNATE_ENERGY) {
+                                if (!e.shouldConsume()) return;
+                                playerMovement.takeStamina(value.get(), false, false);
+                            } else {
+                                e.setAmount((float) (e.getAmount() + value.get()));
+                            }
                         }
                     }
                     if (playerMovement instanceof ServerPlayerMovement serverPlayerMovement)

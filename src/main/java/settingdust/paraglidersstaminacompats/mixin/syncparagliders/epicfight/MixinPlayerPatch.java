@@ -14,8 +14,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import settingdust.paraglidersstaminacompats.ParaglidersStaminaCompats;
 import settingdust.paraglidersstaminacompats.PlayerPatchMovement;
 import settingdust.paraglidersstaminacompats.morestamina.C2SMakeDepleted;
-import tictim.paraglider.capabilities.Caps;
-import tictim.paraglider.capabilities.ClientPlayerMovement;
 import tictim.paraglider.capabilities.PlayerMovement;
 import tictim.paraglider.capabilities.ServerPlayerMovement;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
@@ -41,8 +39,7 @@ public abstract class MixinPlayerPatch<T extends Player> extends LivingEntityPat
 
     @Inject(method = "onConstructed*", at = @At("RETURN"), remap = false)
     private void paraglidersStaminaCompats$initPlayerMovement(T player, CallbackInfo ci) {
-        paraglidersStaminaCompats$playerMovement = LazyOptional.of(
-                () -> PlayerMovement.of(player));
+        paraglidersStaminaCompats$playerMovement = LazyOptional.of(() -> PlayerMovement.of(player));
     }
 
     @ModifyConstant(method = "initAttributes", constant = @Constant(doubleValue = 15.0), remap = false)
@@ -60,7 +57,13 @@ public abstract class MixinPlayerPatch<T extends Player> extends LivingEntityPat
      */
     @ModifyVariable(method = "serverTick", at = @At(value = "STORE"), name = "staminaRegen", remap = false)
     private float paraglidersStaminaCompats$makeStaminaRegenNonZero(float value) {
-        return 1;
+        return (float) (value
+                + paraglidersStaminaCompats$getPlayerMovement().getState().doubleChange());
+    }
+
+    @ModifyVariable(method = "serverTick", at = @At(value = "LOAD", ordinal = 0), name = "staminaRegen", remap = false)
+    private float paraglidersStaminaCompats$avoidStaminaRegenNonZero(float value) {
+        return value == 0 ? 0.001F : value;
     }
 
     @Unique

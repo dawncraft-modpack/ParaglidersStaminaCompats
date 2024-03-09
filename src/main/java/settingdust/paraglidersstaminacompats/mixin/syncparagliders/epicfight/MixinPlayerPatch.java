@@ -1,5 +1,6 @@
 package settingdust.paraglidersstaminacompats.mixin.syncparagliders.epicfight;
 
+import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.player.Player;
@@ -62,8 +63,14 @@ public abstract class MixinPlayerPatch<T extends Player> extends LivingEntityPat
     }
 
     @ModifyVariable(method = "serverTick", at = @At(value = "LOAD", ordinal = 0), name = "staminaRegen", remap = false)
-    private float paraglidersStaminaCompats$avoidStaminaRegenNonZero(float value) {
-        return value == 0 ? 0.001F : value;
+    private float paraglidersStaminaCompats$avoidStaminaRegenZero(float value) {
+        return value == 0 ? 1F : value;
+    }
+
+    @ModifyVariable(method = "serverTick", at = @At(value = "STORE"), name = "regenStandbyTime", remap = false)
+    private int paraglidersStaminaCompats$avoidStaminaRegenZero(
+            int value, @Local(name = "staminaRegen") float staminaRegen) {
+        return staminaRegen == 0 ? 900 : value;
     }
 
     @Unique
@@ -78,14 +85,12 @@ public abstract class MixinPlayerPatch<T extends Player> extends LivingEntityPat
     private void paraglidersStaminaCompats$getMaxStamina(CallbackInfoReturnable<Float> cir) {
         PlayerMovement playerMovement = paraglidersStaminaCompats$getPlayerMovement();
         cir.setReturnValue((float) playerMovement.getDoubleMaxStamina());
-        cir.cancel();
     }
 
     @Inject(method = "getStamina", at = @At("HEAD"), cancellable = true, remap = false)
     private void paraglidersStaminaCompats$getStamina(CallbackInfoReturnable<Float> cir) {
         PlayerMovement playerMovement = paraglidersStaminaCompats$getPlayerMovement();
         cir.setReturnValue(playerMovement.isDepleted() ? 0 : (float) playerMovement.getDoubleStamina());
-        cir.cancel();
     }
 
     @Inject(method = "setStamina", at = @At("HEAD"), cancellable = true, remap = false)
@@ -114,7 +119,6 @@ public abstract class MixinPlayerPatch<T extends Player> extends LivingEntityPat
             }
         }
         cir.setReturnValue(result);
-        cir.cancel();
     }
 
     /**

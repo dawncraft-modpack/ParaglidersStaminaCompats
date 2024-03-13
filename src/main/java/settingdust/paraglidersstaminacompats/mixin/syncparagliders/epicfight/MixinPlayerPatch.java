@@ -58,19 +58,8 @@ public abstract class MixinPlayerPatch<T extends Player> extends LivingEntityPat
      */
     @ModifyVariable(method = "serverTick", at = @At(value = "STORE"), name = "staminaRegen", remap = false)
     private float paraglidersStaminaCompats$makeStaminaRegenNonZero(float value) {
-        return (float) (value
-                + paraglidersStaminaCompats$getPlayerMovement().getState().doubleChange());
-    }
-
-    @ModifyVariable(method = "serverTick", at = @At(value = "LOAD", ordinal = 0), name = "staminaRegen", remap = false)
-    private float paraglidersStaminaCompats$avoidStaminaRegenZero(float value) {
-        return value == 0 ? 1F : value;
-    }
-
-    @ModifyVariable(method = "serverTick", at = @At(value = "STORE"), name = "regenStandbyTime", remap = false)
-    private int paraglidersStaminaCompats$avoidStaminaRegenZero(
-            int value, @Local(name = "staminaRegen") float staminaRegen) {
-        return staminaRegen == 0 ? 900 : value;
+        var regen = value + paraglidersStaminaCompats$getPlayerMovement().getState().doubleChange();
+        return regen == 0 ? 1F : (float) regen;
     }
 
     @Unique

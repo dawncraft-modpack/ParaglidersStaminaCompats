@@ -1,6 +1,5 @@
 package settingdust.paraglidersstaminacompats.mixin.syncparagliders.epicfight;
 
-import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.player.Player;
@@ -58,8 +57,7 @@ public abstract class MixinPlayerPatch<T extends Player> extends LivingEntityPat
      */
     @ModifyVariable(method = "serverTick", at = @At(value = "STORE"), name = "staminaRegen", remap = false)
     private float paraglidersStaminaCompats$makeStaminaRegenNonZero(float value) {
-        var regen = value + paraglidersStaminaCompats$getPlayerMovement().getState().doubleChange();
-        return regen == 0 ? 1F : (float) regen;
+        return 1F;
     }
 
     @Unique
